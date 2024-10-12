@@ -78,11 +78,22 @@ def createToolTip(widget, text):
 def create_tab1(parent):  
     tab1 = ttk.Frame(parent)  
     monty = ttk.LabelFrame(tab1, text='控件示范区1')  
+    
+    # 使 tab1 可以填充整个框架
+    tab1.pack(expand=1, fill="both")
+    tab1.columnconfigure(0, weight=1)  
+    tab1.rowconfigure(1, weight=1)  # 注意是设置Label所在行的权重  
+
+    monty.pack(expand=1, fill="both")
+    monty.columnconfigure(0, weight=1)  
+    monty.rowconfigure(1, weight=1)  # 注意是设置Label所在行的权重 
+
+
     # ... [添加组件到monty中] ...  
      # 创建一个ttk.LabelFrame控件，作为tab1上的一个容器，标题为'控件示范区1'  
     #monty = ttk.LabelFrame(tab1, text='控件示范区1')  
     # 使用grid布局管理器放置LabelFrame，设置列、行、水平内边距和垂直内边距  
-    monty.grid(column=0, row=0, padx=8, pady=4)  
+    monty.grid(column=0, row=0, padx=8, pady=4, sticky=(tk.N, tk.S, tk.E, tk.W))  
         
     # 在monty容器内创建一个标签，文本为"输入文字:"  
     ttk.Label(monty, text="输入文字:").grid(column=0, row=0, sticky='W')  
@@ -143,10 +154,12 @@ def create_tab1(parent):
     spin2.grid(column=1, row=2, sticky='W')  
     
     # 创建一个滚动文本框，设置宽度、高度和文本换行方式  
-    scrolW, scrolH = 30, 5  
+    scrolW, scrolH = 30, 15  
     scr = scrolledtext.ScrolledText(monty, width=scrolW, height=scrolH, wrap=tk.WORD)  
     # 放置滚动文本框，设置列、行、填充方式和跨列数  
     scr.grid(column=0, row=3, sticky='WE', columnspan=3)  
+    #scr.columnconfigure(0, weight=1)  
+    #scr.rowconfigure(1, weight=1)  # 注意是设置Label所在行的权重 
     
     # 假设createToolTip是一个自定义函数，用于为控件创建工具提示（此处未定义）  
     createToolTip(spin, '这是一个Spinbox.')  
@@ -313,7 +326,8 @@ def create_tab3(parent):
 def setup_window():  
     win = tk.Tk()  
     win.title("TTK 模板")  
-    win.resizable(0, 0)  
+    # 使窗口大小可以改变
+    #win.resizable(0, 0)  
     # 设置窗口的图标  
     win.iconbitmap(r'D:\_Code\SSH2Servers\mf.ico')  
     return win  
@@ -328,6 +342,8 @@ def setup_window():
 ### ========================================================================
 def create_tabs(win):  
     tabControl = ttk.Notebook(win)  
+    # 使tabControl可以填充整个框架
+    tabControl.pack(expand=1, fill="both")
       
     # 创建第一个标签页及其内容  
     tab1, monty = create_tab1(tabControl)  
